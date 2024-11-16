@@ -1,0 +1,46 @@
+html {
+    height: 100%;
+  }
+  
+body {
+    height: 100%;
+    margin: 0;
+    background-color: whitesmoke;
+  }
+  
+.head{
+    background-color: black;
+    height: 4em;
+}
+@media screen and (max-width:768px) {
+    .head{
+        height: auto;
+    }
+} 
+.head-display{
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.head-logo{
+    width: 40%;
+}
+.head-list{
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+    align-items: center;
+    text-align: right;
+}
+@media screen and (max-width: 768px) {
+    .head-list{
+        display: block;
+        justify-content: space-between;
+        width: 50%;
+    }
+}
+.link{
+    color: white;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+}

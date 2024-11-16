@@ -1,0 +1,119 @@
+
+.content{
+    width: 100%;
+    height:100% ;
+    text-align: center;
+    
+    border-radius: 8px;
+}
+.ht-lg{
+    padding: 5%;
+}
+.title{
+    text-align: left;
+}
+/* 詳細項目のレイアウト */
+.main-content{
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+    
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+@media screen and (max-width:768px) {
+    .main-content{
+        width: 80%;
+    }
+}
+.row{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    height: 4em;
+    background-color: white;
+}
+.row-ex{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    height: 6em;
+    background-color: white;
+    clear: both;
+    margin-top: 20px; /* 上部に余白を追加して視認性を向上 */
+}
+.break-rows {
+    display: flex;
+    flex-direction: column; /* 縦並び */
+    gap: 10px; /* 子要素間の隙間 */
+    margin-bottom: 20px; /* 休憩欄の下に余白を追加 */
+}
+
+.break-row{
+    display: flex;
+    justify-content: space-between; /* ラベルと入力欄を左右に配置 */
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0; /* 他の行と統一 */
+    height: 4em;
+}
+/* 既存のスタイルを活かしつつ調整 */
+.break-row .label {
+    font-weight: bold;
+    color: #555;
+    width: 30%;
+}
+
+.break-row .value {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 入力欄とボタンの間隔を調整 */
+}
+
+.break-row .input-value {
+    width: 40%;
+    height: 2em;
+}
+.label {
+    font-weight: bold;
+    color: #555;
+    width: 30%;
+}
+.value {
+    width: 70%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333;
+}
+.input-value{
+    width: 40%;
+    height: 2em;
+}
+.input-value-tx{
+    width: 80%;
+    height: 5em;
+}
+.n-correction{
+    color: red;
+}
+.btn{
+    width: 4em;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    font-size: 2em;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+.btn-nt{
+    width: 5em;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    font-size: 2em;
+    color: white;
+    background-color: lightgray;
+    border-radius: 5px;
+}

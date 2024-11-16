@@ -1,0 +1,71 @@
+body{
+    background-color: whitesmoke;
+}
+.content{
+    width: 100%;
+    height:100% ;
+    text-align: center;
+    border-radius: 8px;
+}
+.ht-lg{
+    padding: 5%;
+}
+.title{
+    text-align: left;
+}
+.main-content{
+    width: 70%;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 2em;
+}
+@media screen and (max-width:768px) {
+    .main-content{
+        font-size: large;
+    }
+}
+.attendance{
+    width: 70%;
+    text-align: center;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.th-lg{
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+}
+.main-content input{
+    display: none;
+}
+/*承認待ち or 承認済み*/
+.tab{
+    display: inline-block;          /* インラインブロック化 */
+    border-width: 1px 1px 0px 1px;  /* 上側と左右に枠線を引く */ 
+    padding: 0.75em 1em;            /* 内側の余白量 */
+    font-weight: bold;              /* タブの文字を太字にする */
+    color: black;                   /* タブの文字色：黒色 */
+    width: 20%;
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    border-bottom: 1px;
+}
+.tab-content{
+    display: none;  /* 標準では非表示にする */
+    position: relative;  /* ※3 */
+    border-top: 1px solid black;   /* 枠線(今回は上のみ)を引く*/
+    padding: 1em;              /* 内側の余白量 */
+    background-color: white;
+    text-align: center;
+}
+@media screen and (max-width:768px) {
+    .tab-content{
+        width: 100%;
+    }
+}
+
+/* ▼チェックが入っているラジオボタンに対応するタブの中身を表示する */
+#check1:checked ~ #tabcontent1 { display: block; }
+#check2:checked ~ #tabcontent2 { display: block; }

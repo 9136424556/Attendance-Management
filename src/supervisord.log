@@ -1,0 +1,18 @@
+2024-11-10 16:06:16,781 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-11-10 16:06:16,795 INFO supervisord started with pid 1
+2024-11-10 16:06:17,799 INFO spawned: 'cron' with pid 8
+2024-11-10 16:06:17,817 INFO spawned: 'php-fpm' with pid 9
+2024-11-10 16:06:19,656 INFO success: cron entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-11-10 16:06:19,656 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-11-11 01:57:12,989 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-11-11 01:57:13,026 INFO supervisord started with pid 1
+2024-11-11 01:57:14,030 INFO spawned: 'cron' with pid 7
+2024-11-11 01:57:14,033 INFO spawned: 'php-fpm' with pid 8
+2024-11-11 01:57:15,321 INFO success: cron entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-11-11 01:57:15,321 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-11-14 11:39:35,799 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-11-14 11:39:35,808 INFO supervisord started with pid 1
+2024-11-14 11:39:36,817 INFO spawned: 'cron' with pid 7
+2024-11-14 11:39:36,841 INFO spawned: 'php-fpm' with pid 8
+2024-11-14 11:39:38,160 INFO success: cron entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-11-14 11:39:38,160 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
