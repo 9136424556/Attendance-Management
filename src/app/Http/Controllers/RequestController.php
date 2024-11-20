@@ -88,7 +88,20 @@ class RequestController extends Controller
         $workRequests = Work_request::with('user')->where('status', '承認待ち')->get();
         $approvedRequests = Work_request::with('user')->where('status', '承認済み')->get();
 
-        return view('admin.request',compact('workRequests','approvedRequests'));
+         // データをフォーマット
+         $formattedWorkRequests = $workRequests->map(function ($request) {
+          return [
+              'id' => $request->id,
+              'user_name' => $request->user->name ?? '不明',
+              'work_date' => $request->work_date,
+              'start_time' => $request->start_time,
+              'end_time' => $request->end_time,
+              'reason' => $request->reason,
+              'status' => $request->status,
+          ];
+      });
+
+        return view('admin.request',compact('formattedWorkRequests','workRequests','approvedRequests'));
       //一般ログインの場合
       } elseif (auth('web')->check()) {
         // 管理者セッションの無効化

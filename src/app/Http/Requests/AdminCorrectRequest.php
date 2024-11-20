@@ -27,7 +27,12 @@ class AdminCorrectRequest extends CorrectionRequest
     {
         $rules = parent::rules();
 
+        $rules['break_start_time'] = 'required|array';
+        $rules['break_start_time.*'] = 'required|date_format:H:i'; // 各要素が正しい形式かチェック
+        $rules['break_end_time'] = 'required|array';
+        $rules['break_end_time.*'] = 'required|date_format:H:i';  // 各要素が正しい形式かチェック
         $rules['reason'] = 'required|string'; 
+
         return $rules;
     }
 
@@ -43,9 +48,9 @@ class AdminCorrectRequest extends CorrectionRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            // 入力データを配列に強制変換
-            $this->break_start_time = (array) $this->break_start_time;
-            $this->break_end_time = (array) $this->break_end_time;
+            // 入力データを配列に強制変換(nullや空の値がある場合でも配列として処理する）
+            $this->break_start_time = (array) $this->break_start_time  ?: [];
+            $this->break_end_time = (array) $this->break_end_time  ?: [];
     
             // 入力値の前処理（全角から半角に変換）
             $this->start_time = mb_convert_kana($this->start_time, 'a');
@@ -100,9 +105,29 @@ class AdminCorrectRequest extends CorrectionRequest
                     $breakStart = Carbon::createFromFormat('H:i', $breakStartTime);
                     $breakEnd = Carbon::createFromFormat('H:i',  $this->break_end_time[$index] ?? '');
     
-                    if (!$breakStart || !$breakEnd || $breakStart->lt($startTime) || $breakEnd->gt($endTime) || $breakStart->gte($breakEnd)) {
-                        $validator->errors()->add('break_start_time', '休憩時間が勤務時間外です');
-                        break;
+                    // 休憩開始時間が勤務開始時間より前の場合
+                    if ($breakStart->lt($startTime)) {
+                        $validator->errors()->add("break_start_time.$index", '休憩開始時間が勤務開始時間より前です');
+                    }
+
+                    // 休憩終了時間が勤務終了時間より後の場合
+                    if ($breakEnd->gt($endTime)) {
+                       $validator->errors()->add("break_end_time.$index", '休憩終了時間が勤務終了時間より後です');
+                    }
+
+                    // 休憩開始時間が勤務時間外の場合
+                    if ($breakStart->lt($startTime) || $breakStart->gt($endTime)) {
+                       $validator->errors()->add("break_start_time.$index", '休憩開始時間は勤務時間内である必要があります');
+                    }
+
+                    // 休憩終了時間が勤務時間外の場合
+                    if ($breakEnd->lt($startTime) || $breakEnd->gt($endTime)) {
+                        $validator->errors()->add("break_end_time.$index", '休憩終了時間は勤務時間内である必要があります');
+                    }
+                    // 休憩開始時間が休憩終了時間と同じ、または後の場合
+                    if ($breakStart->gte($breakEnd)) {
+                        $validator->errors()->add("break_start_time.$index", '休憩開始時間は休憩終了時間より前に設定してください');
+                        $validator->errors()->add("break_end_time.$index", '休憩終了時間は休憩開始時間より後に設定してください');
                     }
                 }
             } catch (\Exception $e) {

@@ -21,7 +21,7 @@ class AuthenticatedSessionController extends Controller
     {
          // 認証の試行
         if (!Auth::attempt($request->only('email', 'password'))) {
-           return back()->withErrors(['email' => 'ログイン情報が正しくありません']);
+           return back()->withErrors(['email' => 'ログイン情報が登録されていません']);
         }
        
         // 認証成功時の処理

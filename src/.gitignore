@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+# MySQL データファイルを無視する
+docker/mysql/data/

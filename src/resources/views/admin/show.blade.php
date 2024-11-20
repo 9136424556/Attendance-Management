@@ -31,7 +31,7 @@
         <div class="row">
           <p class="label">日付</p>
           <p class="value">
-            <input class="input-value"  name="year" value="{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y') }}" readonly>-
+            <input class="input-value"  name="year" value="{{ \Carbon\Carbon::parse($attendance->work_date)->format('Y') }}" >-
             <input class="input-value"  name="date" value="{{ \Carbon\Carbon::parse($attendance->work_date)->format('m-d') }}">
           </p>
         </div>

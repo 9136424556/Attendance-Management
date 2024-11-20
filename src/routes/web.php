@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth:web')->group(function () {
-  //勤怠ページ
+  //勤怠・打刻ページ
   Route::get('/attendance',[AttendanceController::class,'index']);
   //勤怠開始
   Route::post('/attendance/start', [AttendanceController::class, 'startTime'])->name('attendance.start');

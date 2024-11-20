@@ -8,7 +8,7 @@
 <div class="content" id="app">
     <div class="main-content">
      <p class="status" id="workStatus">勤務状況: {{ $workStatus }}</p>
-     <p class="date" id="currentDate">{{ \Carbon\Carbon::now()->format('Y-m-d') }}</p>
+     <p class="date" id="currentDate">{{ \Carbon\Carbon::now()->locale('ja')->translatedFormat('Y-m-d (D)') }}</p>
      <p class="time" id="current-time"> --</p>
     </div>
 
@@ -57,6 +57,14 @@
     updateTime();
 
     const currentDate = @json($currentDate); // Laravelからの受け取り
+
+     // 曜日を日本語で表示
+    const date = new Date(currentDate);
+    const options = { weekday: 'short' }; // 曜日の短縮形を取得
+    const weekday = date.toLocaleDateString('ja-JP', options); // 日本語の曜日
+
+    // 曜日を <span> に追加
+    document.getElementById('weekday').innerText = `(${weekday})`;
 
     watch(() => currentDate, (newDate) => {
      if (newDate !== previousDate) {

@@ -29,7 +29,7 @@ class AdminController extends Controller
             return redirect()->route('admin.index');
         }
 
-        return redirect('/admin/login')->withErrors(['email' => 'ログイン情報が正しくありません']);
+        return redirect('/admin/login')->withErrors(['email' => 'ログイン情報が登録されていません']);
     }
     //管理者ログアウト
     public function logout()

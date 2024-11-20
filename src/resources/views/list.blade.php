@@ -12,13 +12,13 @@
    
     <div class="main-content">
     {{-- 前月と翌月に移動するボタン --}}
-        <a class="page-link" href="{{ route('attendance.list', ['date' => \Carbon\Carbon::parse($currentDate)->subMonth()->format('Y-m')]) }}"><-前月</a>
+        <a class="page-link" href="{{ route('attendance.list', ['date' => \Carbon\Carbon::parse($currentDate)->subMonth()->format('Y-m')]) }}">←前月</a>
         {{-- カレンダーボタン --}}
         <button id="calendar-button" class="calendar-button">
            📅 
         </button>
         <span>{{ \Carbon\Carbon::parse($currentDate)->format('Y年m月') }}</span>
-        <a class="page-link2" href="{{ route('attendance.list', ['date' => \Carbon\Carbon::parse($currentDate)->addMonth()->format('Y-m')]) }}">翌月-></a>
+        <a class="page-link2" href="{{ route('attendance.list', ['date' => \Carbon\Carbon::parse($currentDate)->addMonth()->format('Y-m')]) }}">翌月→</a>
 
          {{-- カレンダー用の非表示インプット --}}
         <input type="date" id="datepicker" style="display: none;">

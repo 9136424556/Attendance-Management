@@ -15,15 +15,17 @@ class AttendanceController extends Controller
     //勤怠ページ(ホーム画面)
     public function index()
     {
+       // Carbonのロケール設定を日本語にする
+       Carbon::setLocale('ja');
         // 現在の日付を取得
-       $today = Carbon::today()->format('Y-m-d'); 
+       $today = Carbon::today()->translatedFormat('Y-m-d (l)'); 
       
        // 本日の日付に基づいて出勤記録を取得
        $attendance = Attendance::where('user_id', auth()->id())->whereDate('work_date', $today)->first();
 
          // デフォルトの状態は「勤務外」
-       $status = 'beforeClockIn';
-       $workStatus = '勤務外';
+       $status = session('status', 'beforeClockIn');  // セッションから取得
+       $workStatus = session('workStatus', '勤務外');
 
        if ($attendance) {
         // 出勤記録がある場合、休憩や退勤の状態を確認
@@ -96,10 +98,12 @@ class AttendanceController extends Controller
             // 休憩記録が存在しない場合は新たに作成
          $breakTime = new Break_time();
          $breakTime->attendance_id = $attendance->id; // 休憩レコードに出勤IDを関連付け
-         $breakTime->break_start_time = now(); // 現在時刻を設定
+         $breakTime->break_start_time = Carbon::now(); // 現在時刻を設定
          $breakTime->save();
          
-        return redirect()->back()->with('status', 'onBreak')->with('workStatus','休憩中');
+         // セッション値を設定してリダイレクト
+       session(['status' => 'onBreak', 'workStatus' => '休憩中']);
+        return redirect()->back();
     }
 
     public function breakend(Request $request)

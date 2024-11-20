@@ -26,7 +26,8 @@ class CorrectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|regex:/^\d{2}-\d{2}$/',
+            'year' => 'required|digits:4', // 年は4桁
+            'date' => 'required|regex:/^\d{2}-\d{2}$/', // 月日はm-d形式
             'start_time' => 'nullable|date_format:H:i',
             'end_time' => 'nullable|date_format:H:i',
             'break_start_time' => 'nullable|array',
@@ -73,19 +74,34 @@ class CorrectionRequest extends FormRequest
 
                      if (!$breakStartTime || !$breakEndTime) {
                          $validator->errors()->add('break_start_time', '休憩時間が不完全です');
-                         break;
+                         continue; // 次のループに進む
                      }
 
                     // 時刻をCarbonでパース
                     $breakStart = Carbon::createFromFormat('H:i', $breakStartTime);
                     $breakEnd = Carbon::createFromFormat('H:i',$breakEndTime);
+                    
 
-                    // 勤務時間外にある場合
-                    if ($breakStart->lt($startTime) || $breakEnd->gt($endTime) || $breakStart->gte($breakEnd)) {
-                        $validator->errors()->add('break_start_time', '休憩時間が勤務時間外です');
-                        break;
+                    // 勤務時間外にある場合 - break_start_time のエラー
+                    if ($breakStart->lt($startTime) || $breakStart->gte($endTime)) {
+                        $validator->errors()->add("break_start_time.$index", '休憩時間が勤務時間外です');
+                    }
+                    
+                    // 勤務時間外にある場合 - break_end_time のエラー
+                    if ($breakEnd->lt($startTime) || $breakEnd->gt($endTime)) {
+                        $validator->errors()->add("break_end_time.$index", '休憩時間が勤務時間外です');
+                    }
+                    if ($breakStart->gte($breakEnd)) {
+                        $validator->errors()->add("break_start_time.$index", '休憩時間が勤務時間外です');
                     }
                 }
+            }
+             // year と date を結合して work_date を作成
+            $work_date = $this->year . '-' . $this->date;
+
+            // work_date の形式チェック（例: Y-m-d）
+            if (!Carbon::hasFormat($work_date, 'Y-m-d')) {
+              $validator->errors()->add('work_date', '日付が正しい形式ではありません');
             }
         });
     }

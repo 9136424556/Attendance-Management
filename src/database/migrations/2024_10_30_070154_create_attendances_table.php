@@ -19,8 +19,8 @@ class CreateAttendancesTable extends Migration
             $table->date('work_date');
             $table->time('start_time');
             $table->time('end_time')->nullable();
-            $table->unsignedSmallInteger('overtime')->default(0);
-            $table->string('work_ontime')->default('通常');
+            $table->unsignedSmallInteger('overtime')->default(0);  //削除
+            $table->string('work_ontime')->default('通常');  //削除
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -22,7 +22,6 @@ class CreateWorkRequestsTable extends Migration
             $table->time('end_time')->nullable();
             $table->time('break_start_time')->nullable();
             $table->time('break_end_time')->nullable();
-            $table->unsignedSmallInteger('overtime')->nullable(); //残業時間
             $table->text('reason')->nullable();
             $table->string('status',20)->default('承認待ち');
             $table->timestamp('requested_at')->useCurrent(); //申請日　useCurrent() = 自動で現在日時が設定
