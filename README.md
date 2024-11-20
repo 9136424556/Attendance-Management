@@ -79,5 +79,9 @@ php artisan key:generate
 
 ## その他
 管理者アカウント(Seederに保存済み)
-メールアドレス　coachtech@coachtech.com
-パスワード　coachtech
+　メールアドレス　coachtech@coachtech.com
+　パスワード　coachtech
+ 
+一般ユーザーアカウント(Seederに保存済み)
+　メールアドレス　staffuser@email.com 
+  パスワード  staffuser1
