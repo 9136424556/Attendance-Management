@@ -49,7 +49,7 @@ class UserRegistrationTest extends TestCase
              'name' => 'Test User',
              'email' => 'test@example.com',
              'password' => '1234567',
-             'password_confirmed' => '1234567',
+             'password_confirmation' => '1234567',
          ]);
  
          $response->assertSessionHasErrors(['password']);

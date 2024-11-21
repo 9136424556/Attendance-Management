@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
   //勤怠・打刻ページ
   Route::get('/attendance',[AttendanceController::class,'index']);
   //勤怠開始

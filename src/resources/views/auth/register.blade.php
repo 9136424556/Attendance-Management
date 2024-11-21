@@ -37,7 +37,7 @@
            @enderror
            <div class="mt-4">
               <p><label for="pass-confirm">パスワード確認</label></p>
-              <p><input id="pass-confirm" class="input-form" type="password" name="password_confirmed"  autocomplete="new-password" pattern=".{8,}"></p>
+              <p><input id="pass-confirm" class="input-form" type="password" name="password_confirmation"  autocomplete="new-password" pattern=".{8,}"></p>
            </div>
            <div class="flex items-center justify-end mt-4">
                 <button class="ml-4" type="submit">
