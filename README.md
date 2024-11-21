@@ -24,6 +24,39 @@ http://localhost
 ・スタッフ別月次勤怠一覧取得機能(管理者)
 ・修正申請一覧取得、確認機能(管理者)
 ・修正申請の確認、承認機能(管理者)
+・メール認証機能
+
+## メール認証について
+このアプリではメール認証にmailtrapを使用しています。以下の手順で設定を行うと、メール送信機能をテストすることができます。
+
+### 1. Mailtrapアカウントの作成
+Mailtrapにアカウントを作成し、ダッシュボードにアクセスします。
+- Mailtrapサイト:　https://mailtrap.io
+- - アカウント作成後、プロジェクトを作成し、SMTP設定を確認します。
+### 2. '.env'　ファイルの設定
+`.env` ファイルに、以下の設定を追加します。これらの設定は、Mailtrapのダッシュボードで取得した情報を基にしています。
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username # Mailtrapで確認したSMTPユーザー名
+MAIL_PASSWORD=your_password  # Mailtrapダッシュボードで確認したSMTPパスワード
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS= attendancemanagement@email.com
+MAIL_FROM_NAME="Attendance Management System"
+
+### 3. メール認証機能のテスト
+ユーザーがメール認証を行うと、Mailtrapのダッシュボードに送信されたメールが表示されます。ダッシュボード内で確認できます。
+- Mailtrapダッシュボードにアクセス: https://mailtrap.io/inboxes/{your-inbox-id}
+### 4. 確認メール
+ユーザーが登録後に送信される確認メールは、以下の内容です。Mailtrapダッシュボードで内容を確認できます。
+Hello!
+Please click the button below to verify your email address.
+
+Verify Email Address
+If you did not create an account, no further action is required.
+
+Regards,
+Laravel
 
 ## 使用技術
 ・Laravel 8.83.27
@@ -34,7 +67,7 @@ http://localhost
 ・GitHub:https://github.com/9136424556/Attendance-Management
 ・node.js v12.22.9
 ・npm 8.5.1
-
+・mailtrap
 ## テーブル設計
 ![スクリーンショット 2024-11-20 225326](https://github.com/user-attachments/assets/f0c0381b-abad-40a0-8085-5b67a6756c5c)
 ![スクリーンショット 2024-11-20 225352](https://github.com/user-attachments/assets/b50f4379-1226-427c-8675-52b30a1aedc2)
