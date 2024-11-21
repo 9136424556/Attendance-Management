@@ -64,10 +64,14 @@ class CorrectionRequest extends FormRequest
 
             // 休憩時間のバリデーション
             if ($this->start_time && $this->end_time && !empty($this->break_start_time) && !empty($this->break_end_time)) {
+                 // 配列でない場合は配列に変換
+                $breakStartTimes = is_array($this->break_start_time) ? $this->break_start_time : [$this->break_start_time];
+                $breakEndTimes = is_array($this->break_end_time) ? $this->break_end_time : [$this->break_end_time];
+
                 $startTime = Carbon::createFromFormat('H:i', $this->start_time);
                 $endTime = Carbon::createFromFormat('H:i', $this->end_time);
 
-                foreach ($this->break_start_time as $index => $breakStartTime) {
+                foreach ($breakStartTimes as $index => $breakStartTime) {
                     // 全角文字を半角に変換
                     $breakStartTime = mb_convert_kana($breakStartTime, 'a');
                     $breakEndTime = mb_convert_kana($this->break_end_time[$index] ?? '', 'a');

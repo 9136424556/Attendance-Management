@@ -34,7 +34,9 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
-
+.attendance th, .attendance td {
+    border-bottom: 1px solid black; /* セルごとの枠線 */
+}
 .th-lg{
     white-space: nowrap; /* テキストの折り返しを防ぐ */
 }

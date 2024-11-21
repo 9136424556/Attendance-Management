@@ -12,16 +12,16 @@
 
     <table class="attendance">
       <tr class="row">
-         <th>名前</th>
-         <th>メールアドレス</th>
-         <th>月次勤怠</th>
+         <th class="username">名前</th>
+         <th class="user-email">メールアドレス</th>
+         <th class="month-at">月次勤怠</th>
       </tr>
       
       @foreach($users as $user)
       <tr class="row">
-         <td>{{ $user->name }}</td>
-         <td>{{ $user->email }}</td>
-         <td><a href="{{ route('admin.staffdetail', ['id' => $user->id]) }}">詳細</a></td>
+         <td class="username">{{ $user->name }}</td>
+         <td class="user-email">{{ $user->email }}</td>
+         <td class="month-at"><a href="{{ route('admin.staffdetail', ['id' => $user->id]) }}">詳細</a></td>
       </tr>
       @endforeach
     </table>

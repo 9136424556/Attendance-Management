@@ -58,6 +58,7 @@
     align-items: center;
     border-bottom: 1px solid #e0e0e0; /* 他の行と統一 */
     height: 4em;
+    background-color: white;
 }
 /* 既存のスタイルを活かしつつ調整 */
 .break-row .label {

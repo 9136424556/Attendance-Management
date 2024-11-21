@@ -15,7 +15,7 @@
       <input type="radio" name="tab" id="check2"><label class="tab" for="check2">承認済み</label>
       <div class="tab-content" id="tabcontent1">
         <table class="attendance">
-            <tr>
+            <tr class="row">
                 <th class="th-lg">状態</th>
                 <th class="th-lg">名前</th>
                 <th class="th-lg">対象日時</th>
@@ -24,7 +24,7 @@
                 <th class="th-lg">詳細</th>
             </tr>
             @foreach($workRequests as $workRequest)
-            <tr>
+            <tr class="row">
                 <td>{{ $workRequest->status }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $workRequest->work_date }}</td>
@@ -37,7 +37,7 @@
       </div>
       <div class="tab-content" id="tabcontent2">
        <table class="attendance">
-            <tr>
+            <tr class="row">
                 <th class="th-lg">状態</th>
                 <th class="th-lg">名前</th>
                 <th class="th-lg">対象日時</th>
@@ -46,7 +46,7 @@
                 <th class="th-lg">詳細</th>
             </tr>
             @foreach ($approvedRequests as $request)
-            <tr>
+            <tr class="row">
                 <td>{{ $request->status }}</td>
                 <td>{{ $request->user->name }}</td>
                 <td>{{ $request->work_date }}</td>

@@ -37,12 +37,13 @@ body{
 }
 .page-link{
     color: black;
-    margin-right: 4em;
+    margin-right: 5%;
 }
 
 .page-link2{
     color: black;
-    margin-left:4em;
+    margin-left:5%;
+    max-width: 90%;
 }
 @media screen and (max-width:768px) {
     .page-link{
@@ -59,10 +60,33 @@ body{
     background-color: white;
     margin-left: auto;
     margin-right: auto;
+    table-layout: fixed; /* テーブル全体の幅を固定 */
+}
+.attendance th, .attendance td {
+    border-bottom: 1px solid black; /* セルごとの枠線 */
 }
 .row{
-    border-bottom: 1px solid black;
     height: 2em;
+}
+.username{
+    width: 15%;
+    word-break: keep-all; /* 単語の途中では改行しない（日本語向け） */
+    overflow-wrap: break-word; /* 適切な場所で折り返す */
+}
+.user-email{
+    width: 50%;
+    word-break: keep-all; /* 単語の途中では改行しない（日本語向け） */
+    overflow-wrap: break-word; /* 適切な場所で折り返す */
+}
+@media screen and (max-width:768px) {
+    .user-email{
+        width: 30%;
+        word-break: keep-all; /* 単語の途中では改行しない（日本語向け） */
+        overflow-wrap: break-word; /* 適切な場所で折り返す */
+    }
+}
+.month-at{
+    width: 20%;
 }
 /*カレンダーボタン*/
 .calendar-button{

@@ -37,11 +37,11 @@
       
       @foreach($attendances as $attendance)
       <tr class="row">
-         <td>{{ $attendance->user->name  }}</td>
-         <td>{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
-         <td>{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td>
-         <td>{{ $attendance->total_break_time }}</td>
-         <td>{{ $attendance->total_work_time }}</td>
+         <td class="username">{{ $attendance->user->name  }}</td>
+         <td class="time">{{ \Carbon\Carbon::parse($attendance->start_time)->format('H:i') }}</td>
+         <td class="time">{{ \Carbon\Carbon::parse($attendance->end_time)->format('H:i') }}</td>
+         <td class="time">{{ $attendance->total_break_time }}</td>
+         <td class="time">{{ $attendance->total_work_time }}</td>
          <td><a href="{{ route('admin.show', ['id' => $attendance->id] ) }}">詳細</a></td>
       </tr>
       @endforeach
