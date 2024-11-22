@@ -33,12 +33,13 @@ http://localhost
 Mailtrapにアカウントを作成し、ダッシュボードにアクセスします。
 - Mailtrapサイト:　https://mailtrap.io
 - - アカウント作成後、プロジェクトを作成し、SMTP設定を確認します。
-#### MailHogのセットアップ  
+
+#### 2.  MailHogのセットアップ  
 Dockerを利用してMailHogを起動するには、以下のコマンドを実行してください：  
 
-```bash
+```bash 
 docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
-  
+```
 ### 2. '.env'　ファイルの設定
 `.env` ファイルに、以下の設定を追加します。これらの設定は、Mailtrapのダッシュボードで取得した情報を基にしています。  
 MAIL_MAILER=smtp  
