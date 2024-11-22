@@ -38,7 +38,7 @@ Dockerを利用してMailHogを起動するには、以下のコマンドを実�
 
 ```bash
 docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
-
+  
 ### 2. '.env'　ファイルの設定
 `.env` ファイルに、以下の設定を追加します。これらの設定は、Mailtrapのダッシュボードで取得した情報を基にしています。  
 MAIL_MAILER=smtp  
