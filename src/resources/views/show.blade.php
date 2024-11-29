@@ -51,8 +51,8 @@
           <div class="row" data-index="{{ $index }}">
             <p class="label">休憩 {{ $index + 1 }}</p>
             <p class="value">
-              <input class="input-value" id="break_start_time_{{ $index }}" name="break_start_time" value="{{ \Carbon\Carbon::parse($breakTime->break_start_time)->format('H:i') }}" required>~
-              <input class="input-value" id="break_end_time_{{ $index }}" name="break_end_time" value="{{ \Carbon\Carbon::parse($breakTime->break_end_time)->format('H:i') }}" required>
+              <input class="input-value" id="break_start_time_{{ $index }}" name="break_start_time[]" value="{{ \Carbon\Carbon::parse($breakTime->break_start_time)->format('H:i') }}" required>~
+              <input class="input-value" id="break_end_time_{{ $index }}" name="break_end_time[]" value="{{ \Carbon\Carbon::parse($breakTime->break_end_time)->format('H:i') }}" required>
             </p> 
           </div>
           @endforeach
@@ -81,6 +81,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById("attendanceForm");
         const submitBtn = document.getElementById("submitBtn");
+       
 
         // デフォルトの値を取得
         const defaultStartTime = document.getElementById("start_time").value;

@@ -43,6 +43,8 @@ Route::middleware('auth', 'verified')->group(function () {
   Route::get('/stamp_correction_request/list', [RequestController::class,'requestlist'])->name('stamp_correction_request.list.user');
   //申請詳細ページ
   Route::get('/stamp_correction_request/{id}', [RequestController::class, 'requested'])->name('requested.show');
+  //勤怠情報の修正を申請(承認済みのものを再度修正申請する場合)
+  Route::post('/stamp_correction_request/{id}/request',[RequestController::class, 'requestedreturn'])->name('requested.return');
 });
 
 

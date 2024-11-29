@@ -159,4 +159,59 @@ class RequestController extends Controller
 
         return view('requested',compact('user','attendance','breakTimes','workRequest','year','date'));
     }
+
+    //勤怠情報の修正を申請(承認済みのものを再度修正申請)
+    public function requestedreturn(CorrectionRequest $request, $id)
+    {
+        // バリデーションは自動的にCorrectionRequestで処理される
+        $validated = $request->validated();
+
+        $work_date = $request->input('year') . '-' . $request->input('date');
+
+            // 日付が正しいか確認
+        if (!strtotime($work_date)) {
+          return redirect()->back()->withErrors(['work_date' => '無効な日付です。']);
+        }
+
+        $workRequest = Work_request::findOrFail($id);
+        // 関連する勤怠情報を取得
+        $attendance = $workRequest->attendance;
+        if (!$attendance) {
+          return redirect()->back()->withErrors(['attendance' => '関連する勤怠情報が見つかりません。']);
+        }
+
+          // 既存の休憩時間を削除
+        Break_time::where('attendance_id', $attendance->id)->delete();
+
+          // 各休憩時間を新しく保存
+        $breakStartTimes = $request->input('break_start_time');
+        $breakEndTimes = $request->input('break_end_time');
+        
+    
+        if ($breakStartTimes && $breakEndTimes) {
+          foreach ($breakStartTimes as $index => $startTime) {
+              $endTime = $breakEndTimes[$index];
+              if ($startTime && $endTime) { // 時間が入力されている場合のみ保存
+                  Break_time::create([
+                    'attendance_id' => $attendance->id,
+                    'break_start_time' => $startTime,
+                    'break_end_time' => $endTime,
+                  ]);
+              }
+          }
+        }
+
+        //申請情報を保存
+        $attendanceRequest = Work_request::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => auth()->id(),
+            'work_date' => $work_date,
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
+            'reason' => $validated['reason'],
+            'is_submitted' => true, // フラグをtrueに設定
+        ]);
+       
+        return redirect('/stamp_correction_request/list')->with('status', '申請が送信されました');
+    }
 }

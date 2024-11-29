@@ -75,15 +75,23 @@ class CorrectionRequest extends FormRequest
                     // 全角文字を半角に変換
                     $breakStartTime = mb_convert_kana($breakStartTime, 'a');
                     $breakEndTime = mb_convert_kana($this->break_end_time[$index] ?? '', 'a');
-
-                     if (!$breakStartTime || !$breakEndTime) {
-                         $validator->errors()->add('break_start_time', '休憩時間が不完全です');
-                         continue; // 次のループに進む
-                     }
-
-                    // 時刻をCarbonでパース
-                    $breakStart = Carbon::createFromFormat('H:i', $breakStartTime);
-                    $breakEnd = Carbon::createFromFormat('H:i',$breakEndTime);
+                    
+                    // 余分なスペースを削除
+                    $breakStartTime = trim($breakStartTime);
+                    $breakEndTime = trim($breakEndTime);
+                    
+                    if (empty($breakStartTime) || empty($breakEndTime)) {
+                        $validator->errors()->add("break_start_time.$index", '休憩時間が不完全です');
+                        continue;
+                    }
+            
+                    try {
+                        $breakStart = Carbon::createFromFormat('H:i', $breakStartTime);
+                        $breakEnd = Carbon::createFromFormat('H:i', $breakEndTime);
+                    } catch (\Exception $e) {
+                        $validator->errors()->add("break_start_time.$index", '休憩時間の形式が不正です');
+                        continue;
+                    }
                     
 
                     // 勤務時間外にある場合 - break_start_time のエラー
@@ -104,7 +112,7 @@ class CorrectionRequest extends FormRequest
             $work_date = $this->year . '-' . $this->date;
 
             // work_date の形式チェック（例: Y-m-d）
-            if (!Carbon::hasFormat($work_date, 'Y-m-d')) {
+            if (!Carbon::hasFormat($work_date, 'Y-m-d') || !Carbon::createFromFormat('Y-m-d', $work_date, 'UTC')) {
               $validator->errors()->add('work_date', '日付が正しい形式ではありません');
             }
         });

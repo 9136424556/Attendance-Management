@@ -21,7 +21,7 @@
     @endif
 
     <div class="main-content">
-      <form id="attendanceForm" action="{{ route('attendance.request', ['id' => $attendance->id]) }}" method="post">
+      <form id="attendanceForm" action="{{ route('requested.return', ['id' => $workRequest->id]) }}" method="post">
         @csrf
         <div class="row">
           <p class="label">名前</p>
@@ -31,7 +31,7 @@
         <div class="row">
           <p class="label">日付</p>
           <p class="value">
-            <input class="input-value"  name="year" value="{{ $year }}" readonly>-
+            <input class="input-value"  name="year" value="{{ $year }}">-
             <input class="input-value"  name="date" value="{{ $date }}">
           </p>
         </div>
@@ -39,21 +39,28 @@
         <div class="row">
           <p class="label">出勤・退勤</p>
           <p class="value">
-            <input class="input-value" value="{{ \Carbon\Carbon::createFromFormat('H:i:s', $workRequest->start_time ?? $attendance->start_time)->format('H:i') }}" >~
-            <input class="input-value" value="{{ \Carbon\Carbon::createFromFormat('H:i:s', $workRequest->end_time ?? $attendance->end_time)->format('H:i') }}">
+            <input class="input-value" id="start_time" name="start_time" value="{{ \Carbon\Carbon::createFromFormat('H:i:s', $workRequest->start_time ?? $attendance->start_time)->format('H:i') }}" >~
+            <input class="input-value" id="end_time" name="end_time" value="{{ \Carbon\Carbon::createFromFormat('H:i:s', $workRequest->end_time ?? $attendance->end_time)->format('H:i') }}">
           </p>
           
         </div>
         
+        <div class="break-rows">
         @foreach($breakTimes as $index => $breakTime)
-        <div class="row">
-          <p class="label">休憩 {{ $index + 1 }}</p>
+        <div class="row" data-index="{{ $index }}">
+          <p class="label">休憩{{ $index + 1 }}</p>
           <p class="value">
-            <input class="input-value"  value="{{ \Carbon\Carbon::parse($breakTime['start'])->format('H:i') }}" >~
-            <input class="input-value"  value="{{ \Carbon\Carbon::parse($breakTime['end'])->format('H:i') }}">
+            <input class="input-value" id="break_start_time_{{ $index }}" name="break_start_time[]" value="{{ \Carbon\Carbon::parse($breakTime['start'])->format('H:i') }}" >~
+            <input class="input-value" id="break_end_time_{{ $index }}" name="break_end_time[]" value="{{ \Carbon\Carbon::parse($breakTime['end'])->format('H:i') }}">
           </p> 
         </div>
         @endforeach
+        </div>
+
+        @if($workRequest->status === '承認済み')
+        <!-- 休憩時間追加ボタン -->
+          <button type="button" onclick="addBreakTime()">休憩時間を追加</button>
+        @endif
 
         <div class="row-ex">
           <p class="label">備考</p>
@@ -114,6 +121,50 @@
             } else {
                 submitBtn.disabled = true; // ボタンを無効化
             }
+        });
+
+        // 休憩時間の初期インデックス設定
+        let breakIndex = {{ count($breakTimes) }}; // 初期インデックスはサーバーサイドで渡された値
+          // 休憩時間追加後にも監視対象に追加
+          const addBreakTime = () => {
+            breakIndex++;
+            const breakRows = document.querySelector('.break-rows');
+            const newBreakRow = document.createElement('div');
+            newBreakRow.classList.add('break-row');
+            newBreakRow.innerHTML = `
+                <p class="label">休憩 ${breakIndex}</p>
+                <p class="value">
+                    <input class="input-value" name="break_start_time[]" id="break_start_time_${breakIndex}" required> ~
+                    <input class="input-value" name="break_end_time[]" id="break_end_time_${breakIndex}" required>
+                    <button type="button" class="delete-break-btn">削除</button>
+                </p>
+            `;
+             
+          // 親要素（break-rows）に追加
+          const breakRowsContainer = document.querySelector('.break-rows');
+            breakRowsContainer.appendChild(newBreakRow);
+             // 新しい休憩時間フィールドも監視対象に追加
+            document.getElementById(`break_start_time_${breakIndex}`).addEventListener('input', updateButtonState);
+            document.getElementById(`break_end_time_${breakIndex}`).addEventListener('input', updateButtonState);
+          };
+           // 休憩時間削除
+         const deleteBreakTime = (index) => {
+         const breakRow = document.getElementById(`break_start_time_${index}`).closest('.break-row');
+          breakRow.remove();
+          breakIndex--; // インデックスを減らす
+          // 削除後もボタンの状態を更新
+          updateButtonState();
+        };
+        // 休憩時間追加ボタンにイベントリスナーを追加
+        document.querySelector('button[type="button"]').addEventListener('click', addBreakTime);
+        // 休憩時間削除ボタンへのイベントリスナーを動的に追加する方法
+        form.addEventListener('click', function(event) {
+          if (event.target && event.target.classList.contains('delete-break-btn')) {
+            const breakRow = event.target.closest('.break-row');
+            const breakStartTimeId = breakRow.querySelector('input[name^="break_start_time"]').id;
+            const breakIndex = breakStartTimeId.split('_').pop();  // breakIndexを抽出
+            deleteBreakTime(breakIndex);
+          }
         });
     });
 </script>
