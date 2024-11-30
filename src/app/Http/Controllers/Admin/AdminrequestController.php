@@ -147,8 +147,11 @@ class AdminrequestController extends Controller
         $request->approval_at = now();
         $request->save();
 
-       // 勤怠情報に変更を反映
-        $attendance = Attendance::find($request->attendance_id);
+        // Work_request から attendance_id を取得
+        $attendanceId = $request->attendance_id;
+
+        // 勤怠情報に変更を反映
+        $attendance = Attendance::findOrFail($attendanceId);
         $attendance->work_date = $request->work_date;
         $attendance->start_time = $request->start_time;
         $attendance->end_time = $request->end_time;
@@ -164,9 +167,13 @@ class AdminrequestController extends Controller
             $breakMinutes = $breakStartTime->diffInMinutes($breakEndTime);
         } 
 
+        if ($breakStartTime && $breakEndTime) {
+         // 既存の休憩データを取得
+        $breakTime = Break_time::where('attendance_id', $attendanceId)
+             ->where('break_start_time', '<=', $breakEndTime)
+             ->where('break_end_time', '>=', $breakStartTime)
+             ->first();
 
-         // 休憩時間をBreak_timeテーブルに保存
-        $breakTime = Break_time::where('attendance_id', $request->attendance_id)->first();
         if ($breakTime) {
             // 既存の休憩データがある場合は更新
             $breakTime->break_start_time = $request->break_start_time;
@@ -174,12 +181,12 @@ class AdminrequestController extends Controller
             $breakTime->save();
         } else {
             Break_time::create([
-                'attendance_id' => $request->attendance_id,
+                'attendance_id' => $attendanceId,
                 'break_start_time' => $request->break_start_time,
                 'break_end_time' => $request->break_end_time,
             ]);
         }
-        
+    }  
         return redirect()->back()->with('message', 'Request approved successfully.');
     }
 
